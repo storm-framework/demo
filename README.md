@@ -1,0 +1,2 @@
+# demo
+Tutorial "wishlist" application
