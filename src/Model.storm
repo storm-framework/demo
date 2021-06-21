@@ -1,0 +1,11 @@
+import Data.ByteString (ByteString)
+import Data.Text       (Text)
+
+------------------------------------------------------------------------------------------
+
+User
+  emailAddress  Text
+  password      ByteString
+  firstName     Text
+  lastName      Text
+  UniqueEmailAddress emailAddress
