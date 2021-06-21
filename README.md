@@ -2,13 +2,13 @@
 
 ## Architecture
 
-| **File**          | **Description**                            |
-|:------------------|:-------------------------------------------|
-| `Models.storm`    | (refined) model-policy file                |
-| `Types.hs`        | global type definitions                    |
-| `Config.hs`       | configuration options (e.g. env variables) | 
-| `Routes.hs`       | route-controller mapping                   |
-| `Controllers/*.hs`| controller implementations                 |
+| **File**                           | **Description**                            |
+|:-----------------------------------|:-------------------------------------------|
+| [`Models.storm`](src/Models.storm) | (refined) model-policy file                |
+| [`Routes.hs`](src/Routes.hs)       | route-controller mapping                   |
+| [`Types.hs`](src/Types.hs)         | global type definitions                    |
+| [`Config.hs`](src/Config.hs)       | configuration options (e.g. env variables) |
+| [`Controllers/`](src/Controllers/) | controller implementations                 |
 
 ## Outline
 
@@ -21,11 +21,13 @@ We will build a small "shopping" or "wish" list app with routes
 - `/restore`  restore a (previously) bought entry
 
 ## Part I : Blank Demo
+
 1. Fork the (blank) demo template
-2. Create the `list/` controller which just responds "hello" or a counter
+2. Create the `/list` controller which just responds "hello" or a counter
 3. Test it with `curl` 
 
 ## Part II : Adding Authentication
+
 1. Create `src/Models.storm` 
 2. Add the `User` table
 3. Add a `login/` controller 
@@ -34,6 +36,7 @@ We will build a small "shopping" or "wish" list app with routes
 6. Test with `curl` 
 
 ## Part III : Adding Items
+
 1. Add the `Item` table to `src/Models.storm`
 2. Modify `list/` controller to return all items of `user`
 3. Insert items to DB
