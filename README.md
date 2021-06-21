@@ -4,7 +4,7 @@
 
 | **File**                           | **Description**                            |
 |:-----------------------------------|:-------------------------------------------|
-| [`Models.storm`](src/Models.storm) | (refined) model-policy file                |
+| [`Models.storm`](src/Model.storm)  | (refined) model-policy file                |
 | [`Routes.hs`](src/Routes.hs)       | route-controller mapping                   |
 | [`Types.hs`](src/Types.hs)         | global type definitions                    |
 | [`Config.hs`](src/Config.hs)       | configuration options (e.g. env variables) |
