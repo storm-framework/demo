@@ -34,7 +34,8 @@ routes =
 staticRoute :: Maybe FilePath -> Route 
 staticRoute optsStatic = 
   case optsStatic of
-    Just path -> fallback (sendFromDirectory path "index.html")
+    Just path -> fallback $ 
+      sendFromDirectory path "index.html"
     Nothing   -> fallback $ do
       req <- request
       let path = joinPath (map T.unpack (reqPathInfo req))

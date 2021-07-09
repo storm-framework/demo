@@ -1,5 +1,9 @@
 # Storm DEMO
 
+## TODO 
+
+-???
+
 ## Architecture
 
 | **File**                           | **Description**                            |
@@ -55,3 +59,6 @@ We will build a small "shopping" or "wish" list app with routes
 4. Yikes, build error, fix it!
 5. Insert items to DB
 6. Test it with `curl`
+
+
+---
