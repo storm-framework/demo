@@ -30,7 +30,7 @@ routes :: [Route]
 routes =
   [ post "/api/signin"         signIn
   , post "/api/signout"        signOut
-  , get  "/api/list"           list
+  , get  "/api/list/:uid"      list
   ]
 
 staticRoute :: Maybe FilePath -> Route 

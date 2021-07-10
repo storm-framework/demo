@@ -33,7 +33,7 @@ $ make
 ## Part I : Blank Demo
 
 1. Fork the (blank) demo template
-2. Create the `/list` controller which just responds "hello" or the current time
+2. Create the `/list/:id` controller which just responds "hello" or the current time
 3. Test with `$ scripts/script_1_test.sh`
 
 ## Part II : Adding Authentication
