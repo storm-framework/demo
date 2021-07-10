@@ -55,14 +55,17 @@ See the `signin/` controller
 
 2. Add a user
 
+## replicate 
+
 ```sh
 $ stack run -- add-user --email=rjhala@eng.ucsd.edu --password=rjhala --firstname=Ranjit --lastname=Jhala
+$ stack run
 ```
 
+and then 
+```
 curl --cookie-jar cookies.txt -H "Content-Type: application/json" --data @login.json http://localhost:3000/api/signin
-
-
-http://localhost:3000/api/signin/conf
+```
 
 3. Test with `curl` 
    - test: /api/list/ FAILS
