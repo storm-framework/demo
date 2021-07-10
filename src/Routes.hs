@@ -19,6 +19,7 @@ import           Storm.JSON (respondError)
 import           Model
 import           Control (Route)
 import           Controllers.Auth 
+import           Controllers.List
 import           Controllers.Static ( sendFromDirectory )
 
 -------------------------------------------------------------------------------
@@ -29,6 +30,7 @@ routes :: [Route]
 routes =
   [ post "/api/signin"         signIn
   , post "/api/signout"        signOut
+  , get  "/api/list"           list
   ]
 
 staticRoute :: Maybe FilePath -> Route 

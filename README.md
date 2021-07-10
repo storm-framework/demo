@@ -18,7 +18,8 @@
 
 We will build a small "shopping" or "wish" list app with routes
 
-- `/login`    for authentication
+- `/signin`   for authentication
+- `/signout`  ... for authentication
 - `/list`     all the entries
 - `/create`   create a new entry
 - `/remove`   remove an entry    
@@ -27,17 +28,46 @@ We will build a small "shopping" or "wish" list app with routes
 ## Part I : Blank Demo
 
 1. Fork the (blank) demo template
-2. Create the `/list` controller which just responds "hello" or a counter
+2. Create the `/list` controller which just responds "hello" or the current time
 3. Test it with `curl` 
+
+```sh
+$ stack run
+``` 
+
+and separately
+
+```sh
+$ curl http://localhost:3000/api/list
+"OK: hello at 2021-07-09 21:46:16.4505 UTC"⏎
+
+$ curl http://localhost:3000/api/list
+"OK: hello at 2021-07-09 21:46:17.9553 UTC"⏎
+```
 
 ## Part II : Adding Authentication
 
-1. Create `src/Models.storm` 
-2. Add the `User` table
-3. Add a `login/` controller 
-4. Modify `list/` route to check if auth
-5. Insert users to DB
-6. Test with `curl` 
+See     `src/Models.storm` 
+See the `User` table
+See the `signin/` controller 
+
+1. Modify `list/` route to check if auth (`requireAuthUser`)
+
+2. Add a user
+
+```sh
+$ stack run -- add-user --email=rjhala@eng.ucsd.edu --password=rjhala --firstname=Ranjit --lastname=Jhala
+```
+
+curl --cookie-jar cookies.txt -H "Content-Type: application/json" --data @login.json http://localhost:3000/api/signin
+
+
+http://localhost:3000/api/signin/conf
+
+3. Test with `curl` 
+   - test: /api/list/ FAILS
+   - test: login
+   - test: list       OK
 
 ## Part III : Adding Items
 

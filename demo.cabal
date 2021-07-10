@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 58b57332eb46ff49571d16573e18c910c2c9be7b46deedf4045b73dde39fbf3b
+-- hash: 6f873c13aeb4d6f94c620e75a187acd00bf79fc049b910d1964b13b0547938a4
 
 name:           demo
 version:        0.1.0.0
@@ -19,7 +19,6 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    ChangeLog.md
 
 source-repository head
   type: git
@@ -30,6 +29,7 @@ library
       Config
       Control
       Controllers.Auth
+      Controllers.List
       Controllers.Static
       Controllers.User
       Model

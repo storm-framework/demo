@@ -6,6 +6,7 @@ module Util
   ( stripPrefix
   , module A
   , traceShow
+  , tShow
   )
 where
 
@@ -13,6 +14,11 @@ import           Data.Aeson
 import qualified Data.Aeson                    as A
 import           Data.Char
 import qualified Debug.Trace
+import qualified Data.Text                     as T 
+
+
+tShow :: (Show a) => a -> T.Text
+tShow = T.pack . show
 
 traceShow :: (Show a) => String -> a -> a
 traceShow msg x = Debug.Trace.trace (msg <> ": " <> show x) x
