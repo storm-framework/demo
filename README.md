@@ -25,54 +25,29 @@ We will build a small "shopping" or "wish" list app with routes
 - `/remove`   remove an entry    
 - `/restore`  restore a (previously) bought entry
 
+After editing the code, you can rebuild and run the server with `make`
+
+```sh
+$ make
+``` 
 ## Part I : Blank Demo
 
 1. Fork the (blank) demo template
 2. Create the `/list` controller which just responds "hello" or the current time
-3. Test it with `curl` 
-
-```sh
-$ stack run
-``` 
-
-and separately
-
-```sh
-$ curl http://localhost:3000/api/list
-"OK: hello at 2021-07-09 21:46:16.4505 UTC"⏎
-
-$ curl http://localhost:3000/api/list
-"OK: hello at 2021-07-09 21:46:17.9553 UTC"⏎
-```
+3. Test with `$ scripts/script_1_test.sh`
 
 ## Part II : Adding Authentication
 
 See     `src/Models.storm` 
 See the `User` table
-See the `signin/` controller 
 
-1. Modify `list/` route to check if auth (`requireAuthUser`)
-
-2. Add a user
-
-## replicate 
-
-```sh
-$ stack run -- add-user --email=rjhala@eng.ucsd.edu --password=rjhala --firstname=Ranjit --lastname=Jhala
-$ stack run
-```
-
-and then 
-```
-curl --cookie-jar cookies.txt -H "Content-Type: application/json" --data @login.json http://localhost:3000/api/signin
-```
-
-3. Test with `curl` 
-   - test: /api/list/ FAILS
-   - test: login
-   - test: list       OK
+1. Modify `/list` route to check if auth (`requireAuthUser`)
+2. Add a user `$ scripts/script_2_add_user.sh`
+3. Test `$ scripts/script_2_test.sh`
 
 ## Part III : Adding Items
+
+HEREHEREHEREHERE 
 
 1. Add the `Item` table to `src/Models.storm`
 2. Modify `list/` controller to return all items of `user`
@@ -92,6 +67,3 @@ curl --cookie-jar cookies.txt -H "Content-Type: application/json" --data @login.
 4. Yikes, build error, fix it!
 5. Insert items to DB
 6. Test it with `curl`
-
-
----

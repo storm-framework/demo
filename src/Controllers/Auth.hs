@@ -88,6 +88,7 @@ setSessionCookie token = setCookie
   (defaultSetCookie { setCookieName   = "session"
                     , setCookieValue  = L.toStrict (encode token)
                     , setCookieMaxAge = Just $ secondsToDiffTime 604800 -- 1 week
+                    , setCookieSecure = False
                     }
   )
 
