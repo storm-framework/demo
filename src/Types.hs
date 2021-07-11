@@ -61,8 +61,8 @@ data ItemData = ItemData
   }
   deriving (Show, Generic)
 
-mkItemData :: Text -> Text -> Text -> ItemData
-mkItemData owner descr levl = ItemData (strip descr) (strip levl)
+mkItemData :: Text -> Text -> ItemData
+mkItemData descr levl = ItemData (strip descr) (strip levl)
 
 instance FromJSON ItemData where
   parseJSON = genericParseJSON (stripPrefix "item")

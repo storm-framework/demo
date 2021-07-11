@@ -33,7 +33,7 @@ $ make
 ## Part I : Blank Demo
 
 1. Fork the (blank) demo template
-2. Create the `/list/:id` controller which just responds "hello" or the current time
+2. Create the `/list/:id` controller which just responds with the current time
 3. Test with `$ scripts/script_1_test.sh`
 
 ## Part II : Adding Authentication
@@ -42,23 +42,25 @@ See     `src/Models.storm`
 See the `User` table
 
 1. Modify `/list` route to check if auth (`requireAuthUser`)
-2. Add a user `$ scripts/script_2_add_user.sh`
-3. Test `$ scripts/script_2_test.sh`
+2. Add a user `$ scripts/adduser.sh`
+3. Test `$ scripts/test_2.sh`
 
 ## Part III : Adding Items
 
-HEREHEREHEREHERE 
-
 1. Add the `Item` table to `src/Models.storm`
-2. Modify `list/` controller to return all items of `user`
-3. Insert items to DB
+2. Add a `add/` controller to add new items for a user
+3. Modify `list/` controller to return all items of user
 4. Test it with `curl`
 
 ## Part IV : Restrict to Public Items
-1. PROBLEM: can login as A and then list B's items!
-2. Modify: `models.storm` to specify `public` policy
-3. Yikes, build error, fix it!
-5. Test with `curl`
+
+PROBLEM: can login as `alice` and then list `bob`'s items!
+
+1. Modify: `models.storm` to specify `public` policy <<<< HEREHEREHEREHERE
+
+2. Yikes, build error! 
+3. Fix the query
+3. Test with `curl`
 
 ## Part V : Restrict to Followers
 1. PROBLEM: want to restrict items to 'followers'
