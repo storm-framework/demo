@@ -22,7 +22,7 @@ import           Types
 import Storm.Crypto
 
 ------------------------------------------------------------------------------
---- | Convert User record into pure value
+-- | Convert User record into pure value
 ------------------------------------------------------------------------------
 {-@ extractUserNG :: _ -> TaggedT<{\_ -> True}, {\_ -> False}> _ _ _ @-}
 extractUserNG :: Entity User -> Controller UserNG
