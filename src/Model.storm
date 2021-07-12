@@ -4,7 +4,7 @@ import Data.Text       (Text)
 ------------------------------------------------------------------------------------------
   
 policy IsOP = \it viewer -> 
-  itemOwner item == entityKey viewer || itemLevel item == "public"
+  itemOwner it == entityKey viewer || itemLevel it == "public"
 
 ------------------------------------------------------------------------------------------
 
