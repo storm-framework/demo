@@ -10,7 +10,7 @@ import           Storm.Frankie (requireAuthUser,  status200 )
 import           Storm.SMTP        -- LH: name resolution bug 
 import           Control
 import           Model             -- LH: name resolution bug
-import           Storm.JSON (notFoundJSON, respondJSON)
+import           Storm.JSON (respondJSON, notFoundJSON)
 import           Storm.Filters
 import           Storm.Time ()
 import qualified Data.Text as T
@@ -18,7 +18,7 @@ import           Storm.Infrastructure
 import           Control.Monad.Time (MonadTime(currentTime))
 import           Util (tShow)
 import           Storm.Helpers
-import Controllers.User (extractUserNG)
+import           Controllers.User (extractUserNG)
 
 ------------------------------------------------------------------------------
 -- | template "ping-pong" respond
