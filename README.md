@@ -30,14 +30,28 @@ You can build and run the web-app by typing
 $ make
 ``` 
 
-## Version 0: blank demo
+## Version 0: Kick the tires ping/pong
 
-1. Fork the (blank) demo template
+**Step 1.** Fork and build the server repo at branch `v0`
+
+```sh
+$ git clone https://github.com/storm-framework/demo.git storm-demo
+$ cd storm-demo
+$ git checkout v0
+$ make
+```
+
+**Step 2.** Test with `curl`
+
+```sh
+$ curl http://localhost:3000/api/ping
+"pong"
+```
 
 ## Version 1: Routes and controllers
 
 1. Add a route `/list/:id` route to `Routes.hs`
-2. Handle it with `list` in `Controllers/List.hs` that responds with current time
+2. Create a controller `list` in `Controllers/List.hs` that responds with current time
 3. Test with `$ scripts/test_1.sh`
 
 ## Version 2: Adding Authentication
