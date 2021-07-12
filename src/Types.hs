@@ -50,22 +50,3 @@ data AuthInfo = AuthInfo
 
 instance FromJSON AuthInfo where
   parseJSON = genericParseJSON (stripPrefix "authInfo")
-
-
--------------------------------------------------------------------------------------- 
--- | Command for creating a new Item 
--------------------------------------------------------------------------------------- 
-data ItemData = ItemData
-  { itemDescription :: Text
-  , itemLevel       :: String
-  }
-  deriving (Show, Generic)
-
-mkItemData :: Text -> String -> ItemData
-mkItemData descr levl = ItemData (strip descr) (sStrip levl)
-
-instance FromJSON ItemData where
-  parseJSON = genericParseJSON (stripPrefix "item")
-
-instance ToJSON ItemData where
-  toEncoding = genericToEncoding (stripPrefix "item")
