@@ -10,9 +10,8 @@ import           Storm.Frankie (requireAuthUser,  status200 )
 import           Storm.SMTP        -- LH: name resolution bug 
 import           Control
 import           Model             -- LH: name resolution bug
-import           Storm.JSON (notFoundJSON, decodeBody, respondJSON)
-import           Storm.Filters
-import           Storm.Time
+import           Storm.JSON (respondJSON)
+import           Storm.Time ()
 import qualified Data.Text as T
 import           Storm.Infrastructure
 import           Control.Monad.Time (MonadTime(currentTime))
@@ -29,7 +28,7 @@ pong = respondJSON status200 ("pong" :: T.Text)
 ------------------------------------------------------------------------------
 {-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 list :: UserId -> Controller ()
-list uid = do 
+list uid = do
   time   <- getTime
   respondJSON status200 ("OK: hello " <> tShow uid <> " at " <> time :: T.Text)
 
