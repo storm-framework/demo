@@ -10,24 +10,28 @@ import           Storm.Frankie (requireAuthUser,  status200 )
 import           Storm.SMTP        -- LH: name resolution bug 
 import           Control
 import           Model             -- LH: name resolution bug
-import           Storm.JSON (notFoundJSON, decodeBody, respondJSON)
+import           Storm.JSON (notFoundJSON, respondJSON)
 import           Storm.Filters
-import           Storm.Time
+import           Storm.Time ()
 import qualified Data.Text as T
 import           Storm.Infrastructure
 import           Control.Monad.Time (MonadTime(currentTime))
 import           Util (tShow)
-import           Types
-import           Storm.Insert (insert)
 import           Storm.Helpers
 import Controllers.User (extractUserNG)
+
+------------------------------------------------------------------------------
+-- | template "ping-pong" respond
+------------------------------------------------------------------------------
+pong :: Controller ()
+pong = respondJSON status200 ("pong" :: T.Text)
 
 ------------------------------------------------------------------------------
 -- | Extract User Info List
 ------------------------------------------------------------------------------
 {-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 list :: UserId -> Controller ()
-list uid = do 
+list uid = do
   requireAuthUser
   time   <- getTime
   user   <- selectFirstOr notFoundJSON (userId' ==. uid)
