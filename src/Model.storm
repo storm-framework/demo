@@ -3,11 +3,11 @@ import Data.Text       (Text)
 
 ------------------------------------------------------------------------------------------
 
-policy IsOwner = \item viewer -> 
-  itemOwner item == entityKey viewer 
+policy IsOwner = \item viewer ->
+  itemOwner item == entityKey viewer
 
-policy IsPublic = \item -> 
-  itemLevel item == "public"  
+policy IsPublic = \item ->
+  itemLevel item == "public"
 
 ------------------------------------------------------------------------------------------
 
