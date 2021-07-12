@@ -21,6 +21,7 @@ import           Control
 import           Model             -- LH: name resolution bug
 import           Util           (tShow)
 import           Types
+import           Controllers.User (extractUserNG)
 
 ------------------------------------------------------------------------------
 -- | template "ping-pong" respond
