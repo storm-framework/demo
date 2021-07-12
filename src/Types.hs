@@ -15,8 +15,7 @@ data UserNG = UserNG
   { userFirstName :: Text
   , userLastName  :: Text
   }
-  deriving Generic
-
+  deriving (Show, Generic)
 instance ToJSON UserNG where
   toEncoding = genericToEncoding (stripPrefix "user")
 
