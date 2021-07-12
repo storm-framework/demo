@@ -18,6 +18,18 @@ import qualified Storm.SMTP                    as SMTP
 import           Model   -- LH name resolution
 
 ---------------------------------------------------------------------------------------------
+-- | App specific environment variable names
+---------------------------------------------------------------------------------------------
+
+appSecretKey :: String 
+appSecretKey = "APP_SECRET_KEY"
+
+appSmtpHost, appSmtpUser, appSmtpPass :: String 
+appSmtpHost = "APP_SMTP_HOST"
+appSmtpUser = "APP_SMTP_HOST"
+appSmtpPass = "APP_SMTP_HOST"
+
+---------------------------------------------------------------------------------------------
 -- | App specific (read-only) configuration parameters 
 ---------------------------------------------------------------------------------------------
 
@@ -40,7 +52,7 @@ readAppConfig = AppConfig
 
 readSMTPConfig :: IO SMTPConfig
 readSMTPConfig = do
-    host <- fromMaybe "localhost" <$> lookupEnv "VOLTRON_SMTP_HOST"
-    user <- fromMaybe ""          <$> lookupEnv "VOLTRON_SMTP_USER"
-    pass <- fromMaybe ""          <$> lookupEnv "VOLTRON_SMTP_PASS"
+    host <- fromMaybe "localhost" <$> lookupEnv appSmtpHost
+    user <- fromMaybe ""          <$> lookupEnv appSmtpUser
+    pass <- fromMaybe ""          <$> lookupEnv appSmtpPass
     return $ SMTPConfig host user pass
