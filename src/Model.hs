@@ -15,8 +15,10 @@ module Model
   ( migrateAll
   , mkUser
   , mkItem
+  , mkFollower
   , User
   , Item
+  , Follower
   , userId'
   , userEmailAddress'
   , userPassword'
@@ -26,8 +28,13 @@ module Model
   , itemOwner'
   , itemDescription'
   , itemLevel'
+  , followerId'
+  , followerSubscriber'
+  , followerPublisher'
+  , followerStatus'
   , UserId
   , ItemId
+  , FollowerId
   )
 where
 
@@ -69,13 +76,19 @@ Item
   description Text
   level String
   
+
+Follower
+  subscriber UserId
+  publisher UserId
+  status String
+  
 |]
 
 --------------------------------------------------------------------------------
 -- | Predicates
 --------------------------------------------------------------------------------
 
-
+{-@ measure follows :: UserId -> UserId -> Bool @-}
 
 --------------------------------------------------------------------------------
 -- | Policies
@@ -84,6 +97,8 @@ Item
 {-@ predicate IsOwner ITEM VIEWER = itemOwner (entityVal ITEM) == entityKey VIEWER @-}
 
 {-@ predicate IsPublic ITEM = itemLevel (entityVal ITEM) == "public" @-}
+
+{-@ predicate IsFollower ITEM VIEWER = itemLevel (entityVal ITEM) == "follower" && follows (entityKey VIEWER) (itemOwner (entityVal ITEM)) @-}
 
 --------------------------------------------------------------------------------
 -- | Records
@@ -187,7 +202,7 @@ userLastName' = EntityFieldWrapper UserLastName
      -> x_2: String
      -> StormRecord <{\row -> itemOwner (entityVal row) == x_0 && itemDescription (entityVal row) == x_1 && itemLevel (entityVal row) == x_2},
                      {\_ _ -> True},
-                     {\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0)}>
+                     {\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0 || IsFollower x_0 x_1)}>
                      (Entity User) Item
   @-}
 mkItem :: UserId -> Text -> String -> StormRecord (Entity User) Item
@@ -228,7 +243,7 @@ itemOwner' = EntityFieldWrapper ItemOwner
 {-@ measure itemDescriptionCap :: Entity Item -> Bool @-}
 
 {-@ assume itemDescription' ::
-      EntityFieldWrapper <{\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0)},
+      EntityFieldWrapper <{\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0 || IsFollower x_0 x_1)},
                           {\row field -> field == itemDescription (entityVal row)},
                           {\field row -> field == itemDescription (entityVal row)},
                           {\old -> itemDescriptionCap old},
@@ -252,3 +267,76 @@ itemDescription' = EntityFieldWrapper ItemDescription
   @-}
 itemLevel' :: EntityFieldWrapper (Entity User) Item String
 itemLevel' = EntityFieldWrapper ItemLevel
+
+-- * Follower
+{-@ mkFollower ::
+        x_0: UserId
+     -> x_1: UserId
+     -> x_2: String
+     -> StormRecord <{\row -> followerSubscriber (entityVal row) == x_0 && followerPublisher (entityVal row) == x_1 && followerStatus (entityVal row) == x_2},
+                     {\_ _ -> True},
+                     {\x_0 x_1 -> False}>
+                     (Entity User) Follower
+  @-}
+mkFollower :: UserId -> UserId -> String -> StormRecord (Entity User) Follower
+mkFollower x_0 x_1 x_2 = StormRecord (Follower x_0 x_1 x_2)
+
+{-@ invariant {v: Entity Follower | v == getJust (entityKey v)} @-}
+
+{-@ invariant {v: Entity Follower | (followerStatus (entityVal v)) == "accepted" => follows (followerSubscriber (entityVal v)) (followerPublisher (entityVal v))} @-}
+
+{-@ assume followerId' ::
+      EntityFieldWrapper <{\row viewer -> True},
+                          {\row field  -> field == entityKey row},
+                          {\field row  -> field == entityKey row},
+                          {\_ -> False},
+                          {\_ _ _ -> True}>
+                          (Entity User) Follower FollowerId
+  @-}
+followerId' :: EntityFieldWrapper (Entity User) Follower FollowerId
+followerId' = EntityFieldWrapper FollowerId
+
+{-@ measure followerSubscriber :: Follower -> UserId @-}
+
+{-@ measure followerSubscriberCap :: Entity Follower -> Bool @-}
+
+{-@ assume followerSubscriber' ::
+      EntityFieldWrapper <{\_ _ -> True},
+                          {\row field -> field == followerSubscriber (entityVal row)},
+                          {\field row -> field == followerSubscriber (entityVal row)},
+                          {\old -> followerSubscriberCap old},
+                          {\old _ _ -> followerSubscriberCap old}>
+                          (Entity User) Follower UserId
+  @-}
+followerSubscriber' :: EntityFieldWrapper (Entity User) Follower UserId
+followerSubscriber' = EntityFieldWrapper FollowerSubscriber
+
+{-@ measure followerPublisher :: Follower -> UserId @-}
+
+{-@ measure followerPublisherCap :: Entity Follower -> Bool @-}
+
+{-@ assume followerPublisher' ::
+      EntityFieldWrapper <{\_ _ -> True},
+                          {\row field -> field == followerPublisher (entityVal row)},
+                          {\field row -> field == followerPublisher (entityVal row)},
+                          {\old -> followerPublisherCap old},
+                          {\old _ _ -> followerPublisherCap old}>
+                          (Entity User) Follower UserId
+  @-}
+followerPublisher' :: EntityFieldWrapper (Entity User) Follower UserId
+followerPublisher' = EntityFieldWrapper FollowerPublisher
+
+{-@ measure followerStatus :: Follower -> String @-}
+
+{-@ measure followerStatusCap :: Entity Follower -> Bool @-}
+
+{-@ assume followerStatus' ::
+      EntityFieldWrapper <{\_ _ -> True},
+                          {\row field -> field == followerStatus (entityVal row)},
+                          {\field row -> field == followerStatus (entityVal row)},
+                          {\old -> followerStatusCap old},
+                          {\old _ _ -> followerStatusCap old}>
+                          (Entity User) Follower String
+  @-}
+followerStatus' :: EntityFieldWrapper (Entity User) Follower String
+followerStatus' = EntityFieldWrapper FollowerStatus
