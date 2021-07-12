@@ -2,6 +2,11 @@ import Data.ByteString (ByteString)
 import Data.Text       (Text)
 
 ------------------------------------------------------------------------------------------
+  
+policy IsOP = \it viewer -> 
+  itemOwner item == entityKey viewer || itemLevel item == "public"
+
+------------------------------------------------------------------------------------------
 
 User
   emailAddress  Text
@@ -14,3 +19,5 @@ Item
   owner         UserId
   description   Text
   level         Text
+
+  read   [ description ] @IsOP 

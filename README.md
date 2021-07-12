@@ -50,22 +50,26 @@ See the `User` table
 1. Add the `Item` table to `src/Models.storm`
 2. Add a `add/` controller to add new items for a user
 3. Modify `list/` controller to return all items of user
-4. Test it with `curl`
+4. Test `$ scripts/test_3.sh`
 
 ## Part IV : Restrict to Public Items
 
-PROBLEM: can login as `alice` and then list `bob`'s items!
+PROBLEM: `alice` (or anyone!) can see `bob`'s items!
 
 1. Modify: `models.storm` to specify `public` policy <<<< HEREHEREHEREHERE
 
 2. Yikes, build error! 
+
 3. Fix the query
+
 3. Test with `curl`
 
 ## Part V : Restrict to Followers
-1. PROBLEM: want to restrict items to 'followers'
-2. Add the `Followers` table to `src/Models.storm`
-3. Add the policy to `src/Models.storm`
-4. Yikes, build error, fix it!
-5. Insert items to DB
-6. Test it with `curl`
+
+PROBLEM: want to restrict items to 'followers'
+
+1. Add the `Followers` table to `src/Models.storm`
+2. Add the policy to `src/Models.storm`
+3. Yikes, build error, fix it!
+4. Insert items to DB
+5. Test it with `curl`

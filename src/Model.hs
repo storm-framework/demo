@@ -81,7 +81,7 @@ Item
 -- | Policies
 --------------------------------------------------------------------------------
 
-
+{-@ predicate IsOP IT VIEWER = itemOwner (entityVal IT) == entityKey VIEWER || itemLevel (entityVal IT) == "public" @-}
 
 --------------------------------------------------------------------------------
 -- | Records
@@ -185,7 +185,7 @@ userLastName' = EntityFieldWrapper UserLastName
      -> x_2: Text
      -> StormRecord <{\row -> itemOwner (entityVal row) == x_0 && itemDescription (entityVal row) == x_1 && itemLevel (entityVal row) == x_2},
                      {\_ _ -> True},
-                     {\x_0 x_1 -> False}>
+                     {\x_0 x_1 -> (itemOwner (entityVal x_0) == entityKey x_1 || itemLevel (entityVal x_0) == "public")}>
                      (Entity User) Item
   @-}
 mkItem :: UserId -> Text -> Text -> StormRecord (Entity User) Item
@@ -226,7 +226,7 @@ itemOwner' = EntityFieldWrapper ItemOwner
 {-@ measure itemDescriptionCap :: Entity Item -> Bool @-}
 
 {-@ assume itemDescription' ::
-      EntityFieldWrapper <{\_ _ -> True},
+      EntityFieldWrapper <{\x_0 x_1 -> (itemOwner (entityVal x_0) == entityKey x_1 || itemLevel (entityVal x_0) == "public")},
                           {\row field -> field == itemDescription (entityVal row)},
                           {\field row -> field == itemDescription (entityVal row)},
                           {\old -> itemDescriptionCap old},
