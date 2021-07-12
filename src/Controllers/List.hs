@@ -33,8 +33,8 @@ pong = respondJSON status200 ("pong" :: T.Text)
 list :: UserId -> Controller ()
 list userId = do
   items     <- selectList (itemOwner' ==. userId)
-  itemDatas <- mapT (\i -> ItemData `fmap` project itemDescription' i 
-                                    <*>    project itemLevel' i) 
+  itemDatas <- mapT (\i -> ItemData `fmap` project itemDescription' i
+                                    <*>    project itemLevel' i)
                     items
   respondJSON status200 itemDatas
 
@@ -45,7 +45,7 @@ list userId = do
 add :: Controller ()
 add = do
   owner   <- requireAuthUser
-  ownerId <- project userId' owner 
+  ownerId <- project userId' owner
   ownerEmail <- project userEmailAddress' owner
   items   <- decodeBody
   mapT (\ItemData {..} -> insert (mkItem ownerId itemDescription itemLevel)) items
