@@ -29,16 +29,20 @@ You can build and run the web-app by typing
 ```sh
 $ make
 ``` 
-## Version 1: Blank Demo
+
+## Version 0: blank demo
 
 1. Fork the (blank) demo template
-2. Create the `list` controller which just responds with the current time
+
+## Version 1: Routes and controllers
+
+1. Add a route `/list/:id` route to `Routes.hs`
+2. Handle it with `list` in `Controllers/List.hs` that responds with current time
 3. Test with `$ scripts/test_1.sh`
 
 ## Version 2: Adding Authentication
 
-See     `src/Models.storm` 
-See the `User` table
+See the `User` table in `src/Models.storm` 
 
 1. Modify `list` controller to check if user is logged in (`requireAuthUser`)
 2. Add a user `$ scripts/adduser.sh`
