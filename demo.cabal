@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 6f873c13aeb4d6f94c620e75a187acd00bf79fc049b910d1964b13b0547938a4
+-- hash: 995a4814aee1065d9e7a0349fcaea37d29e0a72b5e677ec350b4f4e7d48e4075
 
 name:           demo
 version:        0.1.0.0
@@ -32,7 +32,6 @@ library
       Controllers.List
       Controllers.Static
       Controllers.User
-      Model
       Routes
       Server
       Types
