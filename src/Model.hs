@@ -14,20 +14,13 @@
 module Model
   ( migrateAll
   , mkUser
-  , mkItem
   , User
-  , Item
   , userId'
   , userEmailAddress'
   , userPassword'
   , userFirstName'
   , userLastName'
-  , itemId'
-  , itemOwner'
-  , itemDescription'
-  , itemLevel'
   , UserId
-  , ItemId
   )
 where
 
@@ -63,12 +56,6 @@ User
   firstName Text
   lastName Text
   UniqueEmailAddress emailAddress
-
-Item
-  owner UserId
-  description Text
-  level String
-  
 |]
 
 --------------------------------------------------------------------------------
@@ -177,76 +164,3 @@ userFirstName' = EntityFieldWrapper UserFirstName
   @-}
 userLastName' :: EntityFieldWrapper (Entity User) User Text
 userLastName' = EntityFieldWrapper UserLastName
-
--- * Item
-{-@ mkItem ::
-        x_0: UserId
-     -> x_1: Text
-     -> x_2: String
-     -> StormRecord <{\row -> itemOwner (entityVal row) == x_0 && itemDescription (entityVal row) == x_1 && itemLevel (entityVal row) == x_2},
-                     {\_ _ -> True},
-                     {\x_0 x_1 -> False}>
-                     (Entity User) Item
-  @-}
-mkItem :: UserId -> Text -> String -> StormRecord (Entity User) Item
-mkItem x_0 x_1 x_2 = StormRecord (Item x_0 x_1 x_2)
-
-{-@ invariant {v: Entity Item | v == getJust (entityKey v)} @-}
-
-
-
-{-@ assume itemId' ::
-      EntityFieldWrapper <{\row viewer -> True},
-                          {\row field  -> field == entityKey row},
-                          {\field row  -> field == entityKey row},
-                          {\_ -> False},
-                          {\_ _ _ -> True}>
-                          (Entity User) Item ItemId
-  @-}
-itemId' :: EntityFieldWrapper (Entity User) Item ItemId
-itemId' = EntityFieldWrapper ItemId
-
-{-@ measure itemOwner :: Item -> UserId @-}
-
-{-@ measure itemOwnerCap :: Entity Item -> Bool @-}
-
-{-@ assume itemOwner' ::
-      EntityFieldWrapper <{\_ _ -> True},
-                          {\row field -> field == itemOwner (entityVal row)},
-                          {\field row -> field == itemOwner (entityVal row)},
-                          {\old -> itemOwnerCap old},
-                          {\old _ _ -> itemOwnerCap old}>
-                          (Entity User) Item UserId
-  @-}
-itemOwner' :: EntityFieldWrapper (Entity User) Item UserId
-itemOwner' = EntityFieldWrapper ItemOwner
-
-{-@ measure itemDescription :: Item -> Text @-}
-
-{-@ measure itemDescriptionCap :: Entity Item -> Bool @-}
-
-{-@ assume itemDescription' ::
-      EntityFieldWrapper <{\_ _ -> True},
-                          {\row field -> field == itemDescription (entityVal row)},
-                          {\field row -> field == itemDescription (entityVal row)},
-                          {\old -> itemDescriptionCap old},
-                          {\old _ _ -> itemDescriptionCap old}>
-                          (Entity User) Item Text
-  @-}
-itemDescription' :: EntityFieldWrapper (Entity User) Item Text
-itemDescription' = EntityFieldWrapper ItemDescription
-
-{-@ measure itemLevel :: Item -> String @-}
-
-{-@ measure itemLevelCap :: Entity Item -> Bool @-}
-
-{-@ assume itemLevel' ::
-      EntityFieldWrapper <{\_ _ -> True},
-                          {\row field -> field == itemLevel (entityVal row)},
-                          {\field row -> field == itemLevel (entityVal row)},
-                          {\old -> itemLevelCap old},
-                          {\old _ _ -> itemLevelCap old}>
-                          (Entity User) Item String
-  @-}
-itemLevel' :: EntityFieldWrapper (Entity User) Item String
-itemLevel' = EntityFieldWrapper ItemLevel

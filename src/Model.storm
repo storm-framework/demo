@@ -7,8 +7,3 @@ User
   firstName     Text
   lastName      Text
   UniqueEmailAddress emailAddress
-
-Item
-  owner         UserId
-  description   Text
-  level         String

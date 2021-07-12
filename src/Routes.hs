@@ -31,7 +31,6 @@ routes =
   [ post "/api/signin"         signIn
   , post "/api/signout"        signOut
   , get  "/api/list/:uid"      list
-  , post "/api/add"            add
   ]
 
 staticRoute :: Maybe FilePath -> Route 
