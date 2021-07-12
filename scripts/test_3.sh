@@ -35,5 +35,5 @@ curl -b cookies.txt -c cookies.txt -H "Content-Type: application/json" --data @s
 printf "\n******** list items for alice ...\n"
 curl -b cookies.txt -c cookies.txt http://localhost:3000/api/list/1
 
-printf "\nlogout\n"
+printf "\n******** logout\n"
 rm cookies.txt

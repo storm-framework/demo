@@ -4,13 +4,13 @@ import Data.Text       (Text)
 ------------------------------------------------------------------------------------------
 predicate follows :: UserId -> UserId -> Bool
 
-policy IsOwner = \item viewer -> 
-  itemOwner item == entityKey viewer 
+policy IsOwner = \item viewer ->
+  itemOwner item == entityKey viewer
 
-policy IsPublic = \item -> 
-  itemLevel item == "public"  
+policy IsPublic = \item ->
+  itemLevel item == "public"
 
-policy IsFollower = \item viewer -> 
+policy IsFollower = \item viewer ->
   itemLevel item == "follower" && follows (entityKey viewer) (itemOwner item)
 
 ------------------------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Item
 
 Follower
   subscriber    UserId
-  publisher     UserId         
+  publisher     UserId
   status        String
 
   assert        {status == "accepted" => follows subscriber publisher}

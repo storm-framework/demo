@@ -30,6 +30,7 @@ routes :: [Route]
 routes =
   [ post "/api/signin"         signIn
   , post "/api/signout"        signOut
+  , get  "/api/ping"           pong
   , get  "/api/list/:uid"      list
   , post "/api/add"            add
   ]
