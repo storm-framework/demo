@@ -2,7 +2,6 @@ import Data.ByteString (ByteString)
 import Data.Text       (Text)
 
 ------------------------------------------------------------------------------------------
-predicate follows :: UserId -> UserId -> Bool
 
 policy IsOwner = \item viewer -> 
   itemOwner item == entityKey viewer 
