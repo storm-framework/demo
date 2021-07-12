@@ -62,7 +62,7 @@ import           Controllers.Static
 import           Model
 import           Control
 import           Routes
-import Config    (readAppConfig)
+import Config    (appSecretKey, readAppConfig)
 
 data Stage = Prod | Dev deriving (Data, Typeable, Show)
 
@@ -111,7 +111,7 @@ readConfig = Config authMethod
 
 readSecretKey :: IO BS.ByteString
 readSecretKey = do
-    secret <- fromMaybe "sb8NHmF@_-nsf*ymt!wJ3.KXmTDPsNoy" <$> lookupEnv "VOLTRON_SECRET_KEY"
+    secret <- fromMaybe "sb8NHmF@_-nsf*ymt!wJ3.KXmTDPsNoy" <$> lookupEnv appSecretKey
     return $ T.encodeUtf8 . T.pack $ secret
 
 -- TODO find a way to provide this without exposing the instance of MonadBaseControl
