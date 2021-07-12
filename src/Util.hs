@@ -7,6 +7,7 @@ module Util
   , module A
   , traceShow
   , tShow
+  , sStrip
   )
 where
 
@@ -19,6 +20,9 @@ import qualified Data.Text                     as T
 
 tShow :: (Show a) => a -> T.Text
 tShow = T.pack . show
+
+sStrip :: String -> String
+sStrip = T.unpack . T.strip . T.pack 
 
 traceShow :: (Show a) => String -> a -> a
 traceShow msg x = Debug.Trace.trace (msg <> ": " <> show x) x

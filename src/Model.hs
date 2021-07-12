@@ -67,7 +67,7 @@ User
 Item
   owner UserId
   description Text
-  level Text
+  level String
   
 |]
 
@@ -81,7 +81,9 @@ Item
 -- | Policies
 --------------------------------------------------------------------------------
 
-{-@ predicate IsOP IT VIEWER = itemOwner (entityVal IT) == entityKey VIEWER || itemLevel (entityVal IT) == "public" @-}
+{-@ predicate IsOwner ITEM VIEWER = itemOwner (entityVal ITEM) == entityKey VIEWER @-}
+
+{-@ predicate IsPublic ITEM = itemLevel (entityVal ITEM) == "public" @-}
 
 --------------------------------------------------------------------------------
 -- | Records
@@ -182,13 +184,13 @@ userLastName' = EntityFieldWrapper UserLastName
 {-@ mkItem ::
         x_0: UserId
      -> x_1: Text
-     -> x_2: Text
+     -> x_2: String
      -> StormRecord <{\row -> itemOwner (entityVal row) == x_0 && itemDescription (entityVal row) == x_1 && itemLevel (entityVal row) == x_2},
                      {\_ _ -> True},
-                     {\x_0 x_1 -> (itemOwner (entityVal x_0) == entityKey x_1 || itemLevel (entityVal x_0) == "public")}>
+                     {\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0)}>
                      (Entity User) Item
   @-}
-mkItem :: UserId -> Text -> Text -> StormRecord (Entity User) Item
+mkItem :: UserId -> Text -> String -> StormRecord (Entity User) Item
 mkItem x_0 x_1 x_2 = StormRecord (Item x_0 x_1 x_2)
 
 {-@ invariant {v: Entity Item | v == getJust (entityKey v)} @-}
@@ -226,7 +228,7 @@ itemOwner' = EntityFieldWrapper ItemOwner
 {-@ measure itemDescriptionCap :: Entity Item -> Bool @-}
 
 {-@ assume itemDescription' ::
-      EntityFieldWrapper <{\x_0 x_1 -> (itemOwner (entityVal x_0) == entityKey x_1 || itemLevel (entityVal x_0) == "public")},
+      EntityFieldWrapper <{\x_0 x_1 -> (IsOwner x_0 x_1 || IsPublic x_0)},
                           {\row field -> field == itemDescription (entityVal row)},
                           {\field row -> field == itemDescription (entityVal row)},
                           {\old -> itemDescriptionCap old},
@@ -236,7 +238,7 @@ itemOwner' = EntityFieldWrapper ItemOwner
 itemDescription' :: EntityFieldWrapper (Entity User) Item Text
 itemDescription' = EntityFieldWrapper ItemDescription
 
-{-@ measure itemLevel :: Item -> Text @-}
+{-@ measure itemLevel :: Item -> String @-}
 
 {-@ measure itemLevelCap :: Entity Item -> Bool @-}
 
@@ -246,7 +248,7 @@ itemDescription' = EntityFieldWrapper ItemDescription
                           {\field row -> field == itemLevel (entityVal row)},
                           {\old -> itemLevelCap old},
                           {\old _ _ -> itemLevelCap old}>
-                          (Entity User) Item Text
+                          (Entity User) Item String
   @-}
-itemLevel' :: EntityFieldWrapper (Entity User) Item Text
+itemLevel' :: EntityFieldWrapper (Entity User) Item String
 itemLevel' = EntityFieldWrapper ItemLevel

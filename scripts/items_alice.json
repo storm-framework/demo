@@ -1,4 +1,6 @@
 [ {"description":"katla","level":"public"} 
 , {"description":"counterpart","level":"public"} 
 , {"description":"marley and me","level":"private"} 
+, {"description":"daniel tiger","level":"follower"} 
+, {"description":"lupin","level":"follower"} 
 ]

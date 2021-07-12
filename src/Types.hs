@@ -6,7 +6,7 @@ module Types where
 import Data.Aeson
 import Data.Text                      ( Text(..), strip)
 import GHC.Generics
-import Util ( stripPrefix )
+import Util (sStrip,  stripPrefix )
 
 -------------------------------------------------------------------------------------- 
 -- | Payload for user-id info --------------------------------------------------------
@@ -57,12 +57,12 @@ instance FromJSON AuthInfo where
 -------------------------------------------------------------------------------------- 
 data ItemData = ItemData
   { itemDescription :: Text
-  , itemLevel       :: Text
+  , itemLevel       :: String
   }
   deriving (Show, Generic)
 
-mkItemData :: Text -> Text -> ItemData
-mkItemData descr levl = ItemData (strip descr) (strip levl)
+mkItemData :: Text -> String -> ItemData
+mkItemData descr levl = ItemData (strip descr) (sStrip levl)
 
 instance FromJSON ItemData where
   parseJSON = genericParseJSON (stripPrefix "item")
