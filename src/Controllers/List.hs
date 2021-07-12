@@ -10,16 +10,21 @@ import           Storm.Frankie (requireAuthUser,  status200 )
 import           Storm.SMTP        -- LH: name resolution bug 
 import           Control
 import           Model             -- LH: name resolution bug
-import           Storm.JSON (notFoundJSON, decodeBody, respondJSON)
+import           Storm.JSON (respondJSON, notFoundJSON, decodeBody)
 import           Storm.Filters
-import           Storm.Time
+import           Storm.Time ()
 import qualified Data.Text as T
 import           Storm.Infrastructure
-import           Control.Monad.Time (MonadTime(currentTime))
 import           Util (tShow)
 import           Types
 import           Storm.Insert (insert)
 import           Storm.Helpers
+
+-------------------------------------------------------------------------------
+--- | template "ping-pong" respond
+-------------------------------------------------------------------------------
+pong :: Controller ()
+pong = respondJSON status200 ("pong" :: T.Text)
 
 ------------------------------------------------------------------------------
 -- | Extract User Info List
@@ -28,10 +33,10 @@ import           Storm.Helpers
 list :: UserId -> Controller ()
 list userId = do
   viewerId  <- project userId' =<< requireAuthUser
-  let pub    = if userId == viewerId then trueF else itemLevel' ==. "public" 
+  let pub    = if userId == viewerId then trueF else itemLevel' ==. "public"
   items     <- selectList (itemOwner' ==. userId &&: pub)
-  itemDatas <- mapT (\i -> ItemData `fmap` project itemDescription' i 
-                                    <*>    project itemLevel' i) 
+  itemDatas <- mapT (\i -> ItemData `fmap` project itemDescription' i
+                                    <*>    project itemLevel' i)
                     items
   respondJSON status200 itemDatas
 
@@ -42,7 +47,7 @@ list userId = do
 add :: Controller ()
 add = do
   owner   <- requireAuthUser
-  ownerId <- project userId' owner 
+  ownerId <- project userId' owner
   ownerEmail <- project userEmailAddress' owner
   items   <- decodeBody
   mapT (\ItemData {..} -> insert (mkItem ownerId itemDescription itemLevel)) items
