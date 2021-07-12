@@ -10,9 +10,6 @@ policy IsOwner = \item viewer ->
 policy IsPublic = \item -> 
   itemLevel item == "public"  
 
-policy IsFollower = \item viewer -> 
-  itemLevel item == "follower" && follows (entityKey viewer) (itemOwner item)
-
 ------------------------------------------------------------------------------------------
 
 User
@@ -27,11 +24,4 @@ Item
   description   Text
   level         String
 
-  read   [ description ] { \item viewer -> IsOwner item viewer || IsPublic item || IsFollower item viewer }
-
-Follower
-  subscriber    UserId
-  publisher     UserId         
-  status        String
-
-  assert        {status == "accepted" => follows subscriber publisher}
+  read   [ description ] { \item viewer -> IsOwner item viewer || IsPublic item }
