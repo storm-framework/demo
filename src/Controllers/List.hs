@@ -22,4 +22,3 @@ import           Util (tShow)
 ------------------------------------------------------------------------------
 pong :: Controller ()
 pong = respondJSON status200 ("pong" :: T.Text)
-
