@@ -16,6 +16,6 @@ printf "\nlist ... now succeeds\n"
 curl -b cookies.txt -c cookies.txt http://localhost:3000/api/list/2
 
 printf "\nlist ... now succeeds\n"
-curl -b cookies.txt -c cookies.txt http://localhost:3000/api/list/3
+curl -b cookies.txt -c cookies.txt http://localhost:3000/api/list/33
 
 rm cookies.txt
