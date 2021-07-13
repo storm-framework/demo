@@ -15,6 +15,7 @@ import           Storm.JSON     (respondJSON, notFoundJSON, decodeBody)
 import           Storm.Time     ()
 import           Storm.Insert   (insert)
 import           Storm.Helpers
+import           Storm.Filters
 import           Storm.Infrastructure
 
 import           Control
