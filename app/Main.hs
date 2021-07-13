@@ -17,6 +17,7 @@ main = do
   case args of
 
     Server {..} -> do
+      putStrLn $ "Starting server at: host = " ++ show (fromString host) ++ ", port = " ++ show port
       runServer $ ServerOpts port (fromString host) static pool db
 
     AddUser {..} -> do
