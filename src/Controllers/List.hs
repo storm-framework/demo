@@ -29,6 +29,31 @@ pong = respondJSON status200 ("pong" :: T.Text)
 ------------------------------------------------------------------------------
 -- | Extract User Info List
 ------------------------------------------------------------------------------
+
+-- list :: UserId -> Controller ()
+-- list userId = do
+--   items     <- selectList (itemOwner' ==. userId)
+--   itemDatas <- mapT (\i -> 
+--       ItemData `fmap` project itemDescription' i
+--                <*>    project itemLevel' i
+--     ) items
+--   respondJSON status200 itemDatas
+
+
+-- list :: UserId -> Controller ()
+-- list userId = do
+--   viewer   <- requireAuthUser
+--   viewerId <- project userId' viewer
+--   let pub   = if userId == viewerId 
+--                 then trueF
+--                 else itemLevel' ==. "public"
+--   items     <- selectList (itemOwner' ==. userId &&: pub)
+--   itemDatas <- mapT (\i -> 
+--       ItemData `fmap` project itemDescription' i
+--                <*>    project itemLevel' i
+--     ) items
+--   respondJSON status200 itemDatas
+
 {-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 list :: UserId -> Controller ()
 list userId = do
