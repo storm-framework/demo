@@ -9,7 +9,7 @@ import           Control.Monad.Time (MonadTime(currentTime))
 import qualified Data.Text as T
 
 import           Storm.Actions      -- LH: name resolution
-import           Storm.Frankie  (requireAuthUser, status200 )
+import           Storm.Frankie  (requireAuthUser, status200)
 import           Storm.SMTP        -- LH: name resolution bug
 import           Storm.JSON     (respondJSON, notFoundJSON, decodeBody)
 import           Storm.Time     ()
