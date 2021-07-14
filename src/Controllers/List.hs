@@ -36,13 +36,14 @@ pong = respondJSON status200 ("pong" :: T.Text)
 {-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 list :: UserId -> Controller ()
 list userId = do
-  viewerId  <- project userId' =<< requireAuthUser
-  let pub    = if userId == viewerId then trueF else itemLevel' ==. "public"
-  items     <- selectList (itemOwner' ==. userId &&: pub)
-  itemDatas <- mapT (\i -> ItemData `fmap` project itemDescription' i
-                                    <*>    project itemLevel' i)
-                    items
-  respondJSON status200 itemDatas
+  viewId  <- project userId' =<< requireAuthUser
+  let pub  = if userId == viewId then trueF else itemLevel' ==. "public"
+  items   <- selectList (itemOwner' ==. userId) -- &&: pub)
+  itemDs  <- mapT (\i -> 
+               ItemData `fmap` project itemDescription' i
+                        <*>    project itemLevel'       i
+	     ) items
+  respondJSON status200 itemDs
 
 ------------------------------------------------------------------------------
 -- | Add a new item for logged in user
