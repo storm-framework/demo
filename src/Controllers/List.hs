@@ -49,9 +49,9 @@ list userId = do
                     items
   respondJSON status200 itemDatas
 
-{-@ checkFollower :: 
-      vId:_ -> uId:_ -> 
-      TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:_ | b => follows vId uId } 
+{-@ checkFollower ::
+      vId:_ -> uId:_ ->
+      TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:_|b => follows vId uId}
   @-}
 checkFollower :: UserId -> UserId -> Controller Bool
 checkFollower vId uId = do
