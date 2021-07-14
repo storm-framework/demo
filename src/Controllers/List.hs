@@ -38,11 +38,10 @@ list :: UserId -> Controller ()
 list userId = do
   viewId  <- project userId' =<< requireAuthUser
   let pub  = if userId == viewId then trueF else itemLevel' ==. "public"
-  items   <- selectList (itemOwner' ==. userId) -- &&: pub)
-  itemDs  <- mapT (\i -> 
-               ItemData `fmap` project itemDescription' i
-                        <*>    project itemLevel'       i
-	     ) items
+  items   <- selectList (itemOwner' ==. userId &&: pub)
+  itemDs  <- mapT (\i -> ItemData `fmap` project itemDescription' i
+                                  <*>    project itemLevel'       i
+                  ) items
   respondJSON status200 itemDs
 
 ------------------------------------------------------------------------------
