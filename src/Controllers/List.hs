@@ -33,7 +33,7 @@ pong = respondJSON status200 ("pong" :: T.Text)
 ------------------------------------------------------------------------------
 -- | Extract User Info List
 ------------------------------------------------------------------------------
-{-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
+{-@ list :: _ -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 list :: UserId -> Controller ()
 list userId = do
   viewerId  <- project userId' =<< requireAuthUser
@@ -49,13 +49,14 @@ list userId = do
                     items
   respondJSON status200 itemDatas
 
-{-@ checkFollower :: viewerId:_ -> userId:_ ->
-                     TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:Bool| b => follows viewerId userId } @-}
-
+{-@ checkFollower :: 
+      vId:_ -> uId:_ -> 
+      TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:_ | b => follows vId uId } 
+  @-}
 checkFollower :: UserId -> UserId -> Controller Bool
-checkFollower viewerId userId = do
-  flws <- selectList (followerSubscriber' ==. viewerId &&:
-                      followerPublisher' ==. userId &&:
+checkFollower vId uId = do
+  flws <- selectList (followerSubscriber' ==. vId &&:
+                      followerPublisher' ==. uId &&:
                       followerStatus' ==. "accepted")
   case flws of
     [] -> return False
