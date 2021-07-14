@@ -8,13 +8,14 @@ module Controllers.List where
 import           Control.Monad.Time (MonadTime(currentTime))
 import qualified Data.Text as T
 
-import           Storm.Actions      -- LH: name resolution 
-import           Storm.Frankie  (requireAuthUser, status200 )
-import           Storm.SMTP        -- LH: name resolution bug 
+import           Storm.Actions      -- LH: name resolution
+import           Storm.Frankie  (requireAuthUser, status200)
+import           Storm.SMTP        -- LH: name resolution bug
 import           Storm.JSON     (respondJSON, notFoundJSON, decodeBody)
 import           Storm.Time     ()
 import           Storm.Insert   (insert)
 import           Storm.Helpers
+import           Storm.Filters
 import           Storm.Infrastructure
 
 import           Control
@@ -63,7 +64,7 @@ checkFollower viewerId userId = do
 ------------------------------------------------------------------------------
 -- | Add a new item for logged in user
 ------------------------------------------------------------------------------
-{-@ add :: TaggedT<{\_ -> True}, {\_ -> True}> _ _ _ @-}
+{-@ add :: TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 add :: Controller ()
 add = do
   owner   <- requireAuthUser
