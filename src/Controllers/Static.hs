@@ -15,8 +15,8 @@ import           Storm.Updates          -- TODO: DUMMY RECURSIVE IMPORTS for LH
 import Model                            -- TODO: DUMMY RECURSIVE IMPORTS for LH 
 
 import           Control (Controller)
--- | Respond with a particular (static) File
 
+-- | Respond with a particular (static) File
 sendFromDirectory :: FilePath -> FilePath -> Controller ()
 sendFromDirectory dir fallback = do
     req <- request
@@ -24,7 +24,6 @@ sendFromDirectory dir fallback = do
     exists <- liftTIO . TIO $ doesFileExist path
     if exists then sendFile path else sendFile (dir </> fallback)
 
--- ? Controllers/Static.hs files
 sendFile :: FilePath -> Controller ()
 sendFile path = do
     let mime = defaultMimeLookup (T.pack path)
