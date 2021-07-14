@@ -51,13 +51,14 @@ list userId = do
 
 {-@ checkFollower ::
       vId:_ -> uId:_ ->
-      TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:_|b => follows vId uId}
+      TaggedT<{\_ -> True}, {\_ -> False}> _ _ {b:_|b => follows vId uId}
   @-}
 checkFollower :: UserId -> UserId -> Controller Bool
 checkFollower vId uId = do
   flws <- selectList (followerSubscriber' ==. vId &&:
                       followerPublisher' ==. uId &&:
-                      followerStatus' ==. "accepted")
+		      )
+                      -- followerStatus' ==. "accepted")
   case flws of
     [] -> return False
     _  -> return True
