@@ -56,9 +56,8 @@ list userId = do
 checkFollower :: UserId -> UserId -> Controller Bool
 checkFollower vId uId = do
   flws <- selectList (followerSubscriber' ==. vId &&:
-                      followerPublisher' ==. uId &&:
-		      )
-                      -- followerStatus' ==. "accepted")
+                      followerPublisher' ==. uId  &&:
+                      followerStatus' ==. "accepted")
   case flws of
     [] -> return False
     _  -> return True
