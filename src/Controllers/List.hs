@@ -47,7 +47,7 @@ list userId = do
 ------------------------------------------------------------------------------
 -- | Add a new item for logged in user
 ------------------------------------------------------------------------------
-{-@ add :: TaggedT<{\_ -> True}, {\_ -> True}> _ _ _ @-}
+{-@ add :: TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 add :: Controller ()
 add = do
   owner   <- requireAuthUser
