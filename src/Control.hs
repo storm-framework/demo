@@ -41,7 +41,6 @@ data Config = Config
 ---------------------------------------------------------------------------------------------
 -- | The Controller Monad -------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------
-
 type TasCon m   = TaggedT (Entity User) (ReaderT SqlBackend (ConfigT Config m))
 type Controller = TaggedT (Entity User) (ReaderT SqlBackend (ConfigT Config (ControllerT TIO)))
 type Task       = TaggedT (Entity User) (ReaderT SqlBackend (ConfigT Config TIO))

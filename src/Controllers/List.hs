@@ -5,20 +5,24 @@
 
 module Controllers.List where
 
-import           Storm.Actions      -- LH: name resolution 
-import           Storm.Frankie (requireAuthUser,  status200 )
-import           Storm.SMTP        -- LH: name resolution bug 
+import           Control.Monad.Time (MonadTime(currentTime))
+import qualified Data.Text as T
+
+import           Storm.Actions      -- LH: name resolution
+import           Storm.Frankie  (requireAuthUser, status200)
+import           Storm.SMTP        -- LH: name resolution bug
+import           Storm.JSON     (respondJSON, notFoundJSON, decodeBody)
+import           Storm.Time     ()
+import           Storm.Insert   (insert)
+import           Storm.Helpers
+import           Storm.Filters
+import           Storm.Infrastructure
+
 import           Control
 import           Model             -- LH: name resolution bug
-import           Storm.JSON (respondJSON, decodeBody)
-import           Storm.Filters
-import           Storm.Time ()
-import qualified Data.Text as T
-import           Storm.Infrastructure
-import           Util (tShow)
+import           Util           (tShow)
 import           Types
-import           Storm.Insert (insert)
-import           Storm.Helpers
+import           Controllers.User (extractUserNG)
 
 ------------------------------------------------------------------------------
 -- | template "ping-pong" respond
@@ -29,6 +33,7 @@ pong = respondJSON status200 ("pong" :: T.Text)
 ------------------------------------------------------------------------------
 -- | Extract User Info List
 ------------------------------------------------------------------------------
+<<<<<<< HEAD
 
 -- list :: UserId -> Controller ()
 -- list userId = do
@@ -55,6 +60,9 @@ pong = respondJSON status200 ("pong" :: T.Text)
 --   respondJSON status200 itemDatas
 
 {-@ list :: UserId -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
+=======
+{-@ list :: _ -> TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
+>>>>>>> v5
 list :: UserId -> Controller ()
 list userId = do
   viewerId  <- project userId' =<< requireAuthUser
@@ -70,14 +78,16 @@ list userId = do
                     items
   respondJSON status200 itemDatas
 
-{-@ checkFollower :: viewerId:_ -> userId:_ ->
-                     TaggedT<{\_ -> True}, {\_ -> True}> _ _ {b:Bool| b => follows viewerId userId } @-}
-
+{-@ checkFollower ::
+      vId:_ -> uId:_ ->
+      TaggedT<{\_ -> True}, {\_ -> False}> _ _ {b:_|b => follows vId uId}
+  @-}
 checkFollower :: UserId -> UserId -> Controller Bool
-checkFollower viewerId userId = do
-  flws <- selectList (followerSubscriber' ==. viewerId &&:
-                      followerPublisher' ==. userId &&:
-                      followerStatus' ==. "accepted")
+checkFollower vId uId = do
+  flws <- selectList (followerSubscriber' ==. vId &&:
+                      followerPublisher' ==. uId &&:
+		      )
+                      -- followerStatus' ==. "accepted")
   case flws of
     [] -> return False
     _  -> return True
@@ -85,7 +95,7 @@ checkFollower viewerId userId = do
 ------------------------------------------------------------------------------
 -- | Add a new item for logged in user
 ------------------------------------------------------------------------------
-{-@ add :: TaggedT<{\_ -> True}, {\_ -> True}> _ _ _ @-}
+{-@ add :: TaggedT<{\_ -> False}, {\_ -> True}> _ _ _ @-}
 add :: Controller ()
 add = do
   owner   <- requireAuthUser
