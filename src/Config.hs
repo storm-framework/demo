@@ -16,6 +16,7 @@ import qualified Control.Concurrent.MVar       as MVar
 import qualified Text.Mustache.Types           as Mustache
 import qualified Storm.SMTP                    as SMTP
 
+-- import qualified Storm.Core-- LH name resolution
 -- import           Model   -- LH name resolution
 
 ---------------------------------------------------------------------------------------------
