@@ -1,0 +1,11 @@
+packages: ../liquidhaskell/ ../liquidhaskell/{liquid-fixpoint,liquid-base,liquid-ghc-prim}/ .
+
+source-repository-package
+    type: git
+    location: https://github.com/PLSysSec/frankie
+    tag: b9ee2c0f7667025d0d0ac3a43ded43d1d1d63c28
+
+source-repository-package
+    type: git
+    location: https://github.com/storm-framework/storm
+    tag: 90ac0528832dea42c3abaa0090bf505ddd223f35 

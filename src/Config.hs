@@ -15,7 +15,8 @@ import           Network.Socket                 ( HostName )
 import qualified Control.Concurrent.MVar       as MVar
 import qualified Text.Mustache.Types           as Mustache
 import qualified Storm.SMTP                    as SMTP
-import           Model   -- LH name resolution
+
+-- import           Model   -- LH name resolution
 
 ---------------------------------------------------------------------------------------------
 -- | App specific environment variable names
